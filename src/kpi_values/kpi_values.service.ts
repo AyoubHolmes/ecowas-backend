@@ -1,26 +1,122 @@
-import { Injectable } from '@nestjs/common';
-import { CreateKpiValueDto } from './dto/create-kpi_value.dto';
-import { UpdateKpiValueDto } from './dto/update-kpi_value.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { KpiValue } from './entities/kpi_value.entity';
+import { IsNull, Repository } from 'typeorm';
 
 @Injectable()
 export class KpiValuesService {
-  create(createKpiValueDto: CreateKpiValueDto) {
-    return 'This action adds a new kpiValue';
+  constructor(
+    @InjectRepository(KpiValue)
+    private kpiValueRepository: Repository<KpiValue>,
+  ) {}
+
+  async findKpiIndexByCountry(country: number) {
+    try {
+      const kpiIndex = await this.kpiValueRepository.find({
+        join: {
+          alias: 'kpiValue',
+          innerJoinAndSelect: {
+            kpi: 'kpiValue.kpi',
+            country: 'kpiValue.country',
+          },
+        },
+        where: {
+          country: {
+            id: country,
+          },
+          kpi: {
+            parent: IsNull(),
+          },
+        },
+        relations: ['kpi', 'country'],
+      });
+      return kpiIndex;
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
-  findAll() {
-    return `This action returns all kpiValues`;
+  async findKpiByCountry(country: number) {
+    try {
+      const kpiIndex = await this.kpiValueRepository.find({
+        join: {
+          alias: 'kpiValue',
+          innerJoinAndSelect: {
+            kpi: 'kpiValue.kpi',
+            country: 'kpiValue.country',
+            parent: 'kpi.parent',
+          },
+        },
+        where: {
+          country: {
+            id: country,
+          },
+        },
+        relations: ['country', 'kpi'],
+      });
+      return kpiIndex;
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} kpiValue`;
+  async findKpiDetailsByCountry(country: number, kpi: number) {
+    try {
+      const kpiIndex = await this.kpiValueRepository.find({
+        join: {
+          alias: 'kpiValue',
+          innerJoinAndSelect: {
+            kpi: 'kpiValue.kpi',
+            country: 'kpiValue.country',
+          },
+        },
+        where: {
+          country: {
+            id: country,
+          },
+          kpi: {
+            id: kpi,
+          },
+        },
+        relations: ['kpi', 'country', 'kpi.parent'],
+      });
+      return kpiIndex;
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
-  update(id: number, updateKpiValueDto: UpdateKpiValueDto) {
-    return `This action updates a #${id} kpiValue`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} kpiValue`;
+  async findNestedKpiDetailsByCountry(country: number, kpi: number) {
+    try {
+      const kpiIndex = await this.kpiValueRepository.find({
+        join: {
+          alias: 'kpiValue',
+          leftJoinAndSelect: {
+            kpi: 'kpiValue.kpi',
+            country: 'kpiValue.country',
+            parent: 'kpi.parent',
+          },
+        },
+        where: {
+          country: {
+            id: country,
+          },
+          kpi: [
+            {
+              id: kpi,
+            },
+            {
+              parent: {
+                id: kpi,
+              },
+            },
+          ],
+        },
+        relations: ['kpi', 'country', 'kpi'],
+      });
+      return kpiIndex;
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 }
