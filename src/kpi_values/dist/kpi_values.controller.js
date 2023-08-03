@@ -24,6 +24,9 @@ var KpiValuesController = /** @class */ (function () {
     KpiValuesController.prototype.findKpiDetailsByCountry = function (country, kpi) {
         return this.kpiValuesService.findKpiDetailsByCountry(country, kpi);
     };
+    KpiValuesController.prototype.findKpiDetailsByKpi = function (kpi) {
+        return this.kpiValuesService.findKpiDetailsByKpi(kpi);
+    };
     KpiValuesController.prototype.findNestedKpiDetailsByCountry = function (country, kpi) {
         return this.kpiValuesService.findNestedKpiDetailsByCountry(country, kpi);
     };
@@ -40,6 +43,10 @@ var KpiValuesController = /** @class */ (function () {
         __param(0, common_1.Query('country')),
         __param(1, common_1.Query('kpi'))
     ], KpiValuesController.prototype, "findKpiDetailsByCountry");
+    __decorate([
+        common_1.Get('/kpi'),
+        __param(0, common_1.Query('kpi'))
+    ], KpiValuesController.prototype, "findKpiDetailsByKpi");
     __decorate([
         common_1.Get('/nested'),
         __param(0, common_1.Query('country')),

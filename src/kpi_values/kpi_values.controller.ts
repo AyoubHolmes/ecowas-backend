@@ -23,6 +23,11 @@ export class KpiValuesController {
     return this.kpiValuesService.findKpiDetailsByCountry(country, kpi);
   }
 
+  @Get('/kpi')
+  findKpiDetailsByKpi(@Query('kpi') kpi: number) {
+    return this.kpiValuesService.findKpiDetailsByKpi(kpi);
+  }
+
   @Get('/nested')
   findNestedKpiDetailsByCountry(
     @Query('country') country: number,

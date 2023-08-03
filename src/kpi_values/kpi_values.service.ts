@@ -39,20 +39,12 @@ export class KpiValuesService {
   async findKpiByCountry(country: number) {
     try {
       const kpiIndex = await this.kpiValueRepository.find({
-        join: {
-          alias: 'kpiValue',
-          innerJoinAndSelect: {
-            kpi: 'kpiValue.kpi',
-            country: 'kpiValue.country',
-            parent: 'kpi.parent',
-          },
-        },
         where: {
           country: {
             id: country,
           },
         },
-        relations: ['country', 'kpi'],
+        relations: ['country', 'kpi', 'kpi.parent'],
       });
       return kpiIndex;
     } catch (error) {
@@ -79,6 +71,22 @@ export class KpiValuesService {
           },
         },
         relations: ['kpi', 'country', 'kpi.parent'],
+      });
+      return kpiIndex;
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
+
+  async findKpiDetailsByKpi(kpi: number) {
+    try {
+      const kpiIndex = await this.kpiValueRepository.find({
+        where: {
+          kpi: {
+            id: kpi,
+          },
+        },
+        relations: ['kpi', 'country'],
       });
       return kpiIndex;
     } catch (error) {
