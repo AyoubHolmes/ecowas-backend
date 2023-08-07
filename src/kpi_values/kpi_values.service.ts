@@ -105,6 +105,7 @@ export class KpiValuesService {
             parent: 'kpi.parent',
           },
         },
+
         where: {
           country: {
             id: country,

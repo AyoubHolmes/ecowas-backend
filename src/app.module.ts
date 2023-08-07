@@ -25,6 +25,7 @@ import { KpiValue } from './kpi_values/entities/kpi_value.entity';
       entities: [Country, Kpi, KpiValue],
       migrations: ['../migrations'],
       synchronize: true,
+      // logging: 'all',
     }),
     CountryModule,
     KpiModule,
