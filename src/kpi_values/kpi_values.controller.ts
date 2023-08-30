@@ -5,6 +5,16 @@ import { KpiValuesService } from './kpi_values.service';
 export class KpiValuesController {
   constructor(private readonly kpiValuesService: KpiValuesService) {}
 
+  @Get('index/all')
+  findAllKpiIndexValues() {
+    return this.kpiValuesService.findAllKpiIndexValues();
+  }
+
+  @Get('index/all/:id')
+  findAllKpiIndexById(@Param('id') id: number) {
+    return this.kpiValuesService.findAllKpiIndex(id);
+  }
+
   @Get('index/:country')
   findKpiIndexByCountry(@Param('country') country: number) {
     return this.kpiValuesService.findKpiIndexByCountry(country);

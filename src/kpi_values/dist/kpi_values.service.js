@@ -54,9 +54,76 @@ var KpiValuesService = /** @class */ (function () {
     function KpiValuesService(kpiValueRepository) {
         this.kpiValueRepository = kpiValueRepository;
     }
-    KpiValuesService.prototype.findKpiIndexByCountry = function (country) {
+    KpiValuesService.prototype.findAllKpiIndexValues = function () {
         return __awaiter(this, void 0, void 0, function () {
             var kpiIndex, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.kpiValueRepository.find({
+                                join: {
+                                    alias: 'kpiValue',
+                                    innerJoinAndSelect: {
+                                        kpi: 'kpiValue.kpi',
+                                        country: 'kpiValue.country'
+                                    }
+                                },
+                                where: {
+                                    kpi: {
+                                        parent: typeorm_2.IsNull()
+                                    }
+                                },
+                                relations: ['kpi', 'country']
+                            })];
+                    case 1:
+                        kpiIndex = _a.sent();
+                        return [2 /*return*/, kpiIndex];
+                    case 2:
+                        error_1 = _a.sent();
+                        throw new common_1.NotFoundException();
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    KpiValuesService.prototype.findAllKpiIndex = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var kpiIndex, error_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.kpiValueRepository.find({
+                                join: {
+                                    alias: 'kpiValue',
+                                    innerJoinAndSelect: {
+                                        kpi: 'kpiValue.kpi',
+                                        country: 'kpiValue.country'
+                                    }
+                                },
+                                where: {
+                                    kpi: {
+                                        id: id,
+                                        parent: typeorm_2.IsNull()
+                                    }
+                                },
+                                relations: ['kpi', 'country']
+                            })];
+                    case 1:
+                        kpiIndex = _a.sent();
+                        return [2 /*return*/, kpiIndex];
+                    case 2:
+                        error_2 = _a.sent();
+                        throw new common_1.NotFoundException();
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    KpiValuesService.prototype.findKpiIndexByCountry = function (country) {
+        return __awaiter(this, void 0, void 0, function () {
+            var kpiIndex, error_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -83,7 +150,7 @@ var KpiValuesService = /** @class */ (function () {
                         kpiIndex = _a.sent();
                         return [2 /*return*/, kpiIndex];
                     case 2:
-                        error_1 = _a.sent();
+                        error_3 = _a.sent();
                         throw new common_1.NotFoundException();
                     case 3: return [2 /*return*/];
                 }
@@ -92,7 +159,7 @@ var KpiValuesService = /** @class */ (function () {
     };
     KpiValuesService.prototype.findKpiByCountry = function (country) {
         return __awaiter(this, void 0, void 0, function () {
-            var kpiIndex, error_2;
+            var kpiIndex, error_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -109,7 +176,7 @@ var KpiValuesService = /** @class */ (function () {
                         kpiIndex = _a.sent();
                         return [2 /*return*/, kpiIndex];
                     case 2:
-                        error_2 = _a.sent();
+                        error_4 = _a.sent();
                         throw new common_1.NotFoundException();
                     case 3: return [2 /*return*/];
                 }
@@ -118,7 +185,7 @@ var KpiValuesService = /** @class */ (function () {
     };
     KpiValuesService.prototype.findKpiDetailsByCountry = function (country, kpi) {
         return __awaiter(this, void 0, void 0, function () {
-            var kpiIndex, error_3;
+            var kpiIndex, error_5;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -145,7 +212,7 @@ var KpiValuesService = /** @class */ (function () {
                         kpiIndex = _a.sent();
                         return [2 /*return*/, kpiIndex];
                     case 2:
-                        error_3 = _a.sent();
+                        error_5 = _a.sent();
                         throw new common_1.NotFoundException();
                     case 3: return [2 /*return*/];
                 }
@@ -154,7 +221,7 @@ var KpiValuesService = /** @class */ (function () {
     };
     KpiValuesService.prototype.findKpiDetailsByKpi = function (kpi) {
         return __awaiter(this, void 0, void 0, function () {
-            var kpiIndex, error_4;
+            var kpiIndex, error_6;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -171,7 +238,7 @@ var KpiValuesService = /** @class */ (function () {
                         kpiIndex = _a.sent();
                         return [2 /*return*/, kpiIndex];
                     case 2:
-                        error_4 = _a.sent();
+                        error_6 = _a.sent();
                         throw new common_1.NotFoundException();
                     case 3: return [2 /*return*/];
                 }
@@ -180,7 +247,7 @@ var KpiValuesService = /** @class */ (function () {
     };
     KpiValuesService.prototype.findNestedKpiDetailsByCountry = function (country, kpi) {
         return __awaiter(this, void 0, void 0, function () {
-            var kpiIndex, error_5;
+            var kpiIndex, error_7;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -215,7 +282,7 @@ var KpiValuesService = /** @class */ (function () {
                         kpiIndex = _a.sent();
                         return [2 /*return*/, kpiIndex];
                     case 2:
-                        error_5 = _a.sent();
+                        error_7 = _a.sent();
                         throw new common_1.NotFoundException();
                     case 3: return [2 /*return*/];
                 }
