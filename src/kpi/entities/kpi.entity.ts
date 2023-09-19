@@ -15,6 +15,14 @@ export class Kpi {
   label: string;
   @Column({ nullable: true, name: 'kpi_description' })
   description: string;
+  @Column({ default: '', name: 'label_french' })
+  labelFrench: string;
+  @Column({ nullable: true, name: 'kpi_description_french' })
+  descriptionFrench: string;
+  @Column({ default: '', name: 'label_portuguese' })
+  labelPortuguese: string;
+  @Column({ nullable: true, name: 'kpi_description_portuguese' })
+  descriptionPortuguese: string;
   @ManyToOne(() => Kpi, (kpi) => kpi.childs, { nullable: true })
   @JoinColumn({ name: 'parent_id' })
   parent: Kpi;
